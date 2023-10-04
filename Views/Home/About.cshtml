@@ -1,0 +1,53 @@
+﻿@{
+	ViewBag.Title = "About";
+}
+
+<h2>@ViewBag.Title</h2>
+<p>Welcome to "The Tree App"!</p>
+<p>Our mission is to help you manage your branches and employees efficiently. With our user-friendly web application, you can easily organize and keep track of all your branch locations, employees, and important information.</p>
+
+<p>Key Features:</p>
+<ul>
+	<li>Create and manage branch locations.</li>
+	<li>Add and update employee details.</li>
+	<li>Upload employee photos for easy identification.</li>
+	<li>Track important dates, such as branch opening dates and employee hire dates.</li>
+</ul>
+
+<p>Whether you're a small business owner or a manager responsible for multiple branches, "The Tree App" is designed to simplify your administrative tasks and improve your organization's efficiency.</p>
+<p>Feel free to explore the app and get started by adding your branches and employees today!</p>
+
+<!-- Database Table Structures -->
+<h3>Database Table Structures</h3>
+
+<h4>Employees Table</h4>
+<pre>
+CREATE TABLE [dbo].[Employees] (
+    [Id]               INT             IDENTITY (1, 1) NOT NULL,
+    [LastName]         NVARCHAR (MAX)  NOT NULL,
+    [FirstName]        NVARCHAR (MAX)  NOT NULL,
+    [MiddleName]       NVARCHAR (MAX)  NOT NULL,
+    [DateHired]        DATETIME        NOT NULL,
+    [PhotoData]        VARBINARY (MAX) NULL,
+    [PhotoContentType] NVARCHAR (MAX)  NULL,
+    CONSTRAINT [PK_dbo.Employees] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+</pre>
+
+<h4>Branches Table</h4>
+<pre>
+CREATE TABLE [dbo].[Branches] (
+    [Id]         INT            IDENTITY (1, 1) NOT NULL,
+    [Code]       NVARCHAR (MAX) NOT NULL,
+    [Name]       NVARCHAR (MAX) NOT NULL,
+    [Address]    NVARCHAR (MAX) NOT NULL,
+    [Barangay]   NVARCHAR (MAX) NOT NULL,
+    [City]       NVARCHAR (MAX) NOT NULL,
+    [PermitNo]   NVARCHAR (MAX) NOT NULL,
+    [DateOpened] DATETIME       NOT NULL,
+    [IsActive]   BIT            NOT NULL,
+    [ManagerId]  INT            DEFAULT ((0)) NOT NULL,
+    CONSTRAINT [PK_dbo.Branches] PRIMARY KEY CLUSTERED ([Id] ASC),
+    CONSTRAINT [FK_dbo.Branches_dbo.Employees_BranchManager_Id] FOREIGN KEY ([ManagerId]) REFERENCES [dbo].[Employees] ([Id]) ON DELETE CASCADE
+);
+</pre>

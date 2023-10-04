@@ -1,0 +1,34 @@
+﻿@{
+	ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+	<h1>Welcome to The Tree App</h1>
+	<h4 class="mb3"><strong>Manage your branches and employees with ease!</strong></h4>
+	<p>@Html.ActionLink("Get Started »", "Index", "Branches", null, new { @class = "btn btn-primary btn-lg" })</p>
+</div>
+
+<div class="row">
+	<marquee behavior="alternate">
+		<img id="marqueeImage" src="@Url.Content("~/Content/home_marquee.gif")" style="opacity: 0" />
+	</marquee>
+</div>
+
+@section Scripts {
+	<script>
+		var marqueeImage = document.getElementById('marqueeImage');
+		var opacity = 0;
+		marqueeImage.style.opacity = opacity;
+
+		function increaseOpacity() {
+			if (opacity < 1) {
+				opacity += 0.01; // You can adjust the increment value
+				marqueeImage.style.opacity = opacity;
+				setTimeout(increaseOpacity, 100); // Adjust the interval as needed
+			}
+		}
+
+		// Start increasing opacity after a delay (e.g., 10000ms = 10 seconds)
+		setTimeout(increaseOpacity, 10000);
+	</script>
+}

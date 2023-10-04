@@ -1,0 +1,124 @@
+﻿@model TreeWebApp.Models.Employee
+
+@{
+	ViewBag.Title = "Edit";
+}
+
+<h2>Edit Employee</h2>
+<hr />
+@using (Html.BeginForm("Edit", "Employees", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+	@Html.AntiForgeryToken()
+	<div class="row">
+		<div class="col-md-6">
+			<div class="form-horizontal">
+
+				@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+				@Html.HiddenFor(model => model.Id)
+
+				<div class="form-group">
+					@Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
+					<div class="col-md-10">
+						@Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+						@Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+					</div>
+				</div>
+
+				<div class="form-group">
+					@Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
+					<div class="col-md-10">
+						@Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+						@Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+					</div>
+				</div>
+
+				<div class="form-group">
+					@Html.LabelFor(model => model.MiddleName, htmlAttributes: new { @class = "control-label col-md-2" })
+					<div class="col-md-10">
+						@Html.EditorFor(model => model.MiddleName, new { htmlAttributes = new { @class = "form-control" } })
+						@Html.ValidationMessageFor(model => model.MiddleName, "", new { @class = "text-danger" })
+					</div>
+				</div>
+
+				<div class="form-group">
+					@Html.LabelFor(model => model.DateHired, htmlAttributes: new { @class = "control-label col-md-2" })
+					<div class="col-md-10">
+						@Html.EditorFor(model => model.DateHired, new { htmlAttributes = new { @class = "form-control" } })
+						@Html.ValidationMessageFor(model => model.DateHired, "", new { @class = "text-danger" })
+					</div>
+				</div>
+
+				<div class="form-group">
+					<div class="col-md-offset-2 col-md-10">
+						<input type="submit" value="Submit" class="btn btn-primary" />
+					</div>
+				</div>
+			</div>
+			<div>
+				@Html.ActionLink("Back to List", "Index")
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="thumbnail">
+				@if (Model.PhotoData != null && Model.PhotoData.Length > 0)
+				{
+					<img class="mt2" id="defaultImage" src="@Url.Content("~/Content/employee_default.png")" alt="Default Image" style="display: none" />
+					<img class="mt2" id="imagePreview" src="data:@Model.PhotoContentType;base64,@Convert.ToBase64String(Model.PhotoData)" alt="Preview" />
+				}
+				else
+				{
+					<!-- Display the default image when no photo is available -->
+					<img class="mt2" id="defaultImage" src="@Url.Content("~/Content/employee_default.png")" alt="Default Image" />
+					<img class="mt2" id="imagePreview" src="@Url.Content("~/Content/employee_default.png")" alt="Preview" style="display: none" />
+				}
+				<div class="caption mt2 mb4">
+					<div class="form-group">
+						@Html.LabelFor(model => model.PhotoData, "Employee Photo", htmlAttributes: new { @class = "control-label col-md-2" })
+						<div class="col-md-10">
+							<input type="file" name="PhotoFile" id="PhotoFile" accept="image/*" onchange="previewImage(this);" />
+							@Html.ValidationMessageFor(model => model.PhotoData, "", new { @class = "text-danger" })
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+}
+
+@section Scripts {
+	@Scripts.Render("~/bundles/jquery")
+	@Scripts.Render("~/bundles/jqueryval")
+	<script>
+		$(document).ready(function () {
+			var successMessage = '@TempData["SuccessMessage"]';
+
+			if (successMessage) {
+
+				// Show the success message in an alert
+				alert(successMessage);
+
+				// Redirect to another page (e.g., "Index")
+				window.location.href = '@Url.Action("Index", "Employees")';
+			}
+		});
+		function previewImage(input) {
+			var imagePreview = document.getElementById('imagePreview');
+			var defaultImage = document.getElementById('defaultImage');
+
+			if (input.files && input.files[0]) {
+				var reader = new FileReader();
+
+				reader.onload = function (e) {
+					imagePreview.src = e.target.result;
+					imagePreview.style.display = 'block';
+					defaultImage.style.display = 'none'; // Hide the default image
+				};
+
+				reader.readAsDataURL(input.files[0]);
+			} else {
+				imagePreview.style.display = 'none'; // Hide the image preview
+				defaultImage.style.display = 'block'; // Display the default image
+			}
+		}
+	</script>
+}

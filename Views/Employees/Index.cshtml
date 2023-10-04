@@ -1,0 +1,67 @@
+﻿@model IEnumerable<TreeWebApp.Models.Employee>
+
+@{
+	ViewBag.Title = "Index";
+}
+
+<!-- Nav tabs -->
+<div class="mt5 mb4">
+	<ul class="nav nav-tabs" id="myTabs">
+		<li class="nav-item active">
+			<a class="nav-link active" data-toggle="tab">Employee List</a>
+		</li>
+		<li class="nav-item">
+			@Html.ActionLink("Add New", "Create", null, new { @class = "nav-link", id = "addNewTab" })
+		</li>
+	</ul>
+</div>
+<div class="m1">
+	<table id="EmployeeTable" class="table">
+		<thead>
+			<tr>
+				<th>@Html.DisplayNameFor(model => model.LastName)</th>
+				<th>@Html.DisplayNameFor(model => model.FirstName)</th>
+				<th>@Html.DisplayNameFor(model => model.MiddleName)</th>
+				<th>@Html.DisplayNameFor(model => model.DateHired)</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model)
+			{
+				<tr>
+					<td>@Html.DisplayFor(modelItem => item.LastName)</td>
+					<td>@Html.DisplayFor(modelItem => item.FirstName)</td>
+					<td>@Html.DisplayFor(modelItem => item.MiddleName)</td>
+					<td>@Html.DisplayFor(modelItem => item.FormattedDateHired)</td>
+					<td>
+						<div class="btn-group" role="group">
+							<a href="@Url.Action("Edit", new { id = item.Id })" class="btn btn-primary" role="button">
+								<span class="glyphicon glyphicon-pencil"></span> Edit
+							</a>
+							<a href="@Url.Action("Delete", new { id = item.Id })" class="btn btn-danger" role="button">
+								<span class="glyphicon glyphicon-trash"></span> Delete
+							</a>
+							<a href="@Url.Action("Details", new { id = item.Id })" class="btn btn-info" role="button">
+								<span class="glyphicon glyphicon-info-sign"></span> Details
+							</a>
+						</div>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>
+@section Scripts {
+	@Scripts.Render("~/bundles/jquery")
+	<script>
+		$(document).ready(function () {
+			$('#EmployeeTable').DataTable({
+				stateSave: true,
+				"language": {
+					"emptyTable": "No data found, click on <strong>Add New</strong> button"
+				}
+			});
+		});
+	</script>
+}
