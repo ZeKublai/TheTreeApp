@@ -18,7 +18,7 @@ To run "The Tree App" on your local machine, follow these steps:
 1. **Clone the Repository**: Clone this GitHub repository to your local machine using Git or download it as a ZIP archive.
 
    ```bash
-   git clone https://github.com/YourUsername/TheTreeApp.git
+   git clone https://github.com/ZeKublai/TheTreeApp.git
    ```
 
 2. **Open in Visual Studio**: Open Visual Studio 2019.
